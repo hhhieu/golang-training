@@ -1,0 +1,26 @@
+RestAPI: HTTP/DB
+- Chỉ nên design về dạng 5: CRULD
+
+HTPP Protocol
+Method: Post vs Get
+
+https://github.com/tpphu/golang-training/wiki/0x12.-API-Design-Guide
+
+
+Http response
+
+Body:
+in case error:
+{
+	message: string
+	code:
+	details:
+}
+in case 200:
+result
+
+
+Listing:
+
+Using filter "where" instead of "offset" to paging
+page token
