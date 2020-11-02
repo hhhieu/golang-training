@@ -1,0 +1,7 @@
+version: '2'
+services:
+  blog_service:
+    build: 
+      context: ..
+      dockerfile: build/blog_service.dockerfile
+    container_name: blog_service
