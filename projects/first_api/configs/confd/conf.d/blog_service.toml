@@ -1,0 +1,9 @@
+[template]
+src = "blog_service.yml.toml"
+dest = "configs/blog_service.yml"
+keys = [
+    "/blog/database/url",
+    "/blog/database/username",
+    "/blog/database/password",
+    "/blog/database/dbname",
+]

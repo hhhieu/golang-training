@@ -1,7 +1,11 @@
 version: '2'
 services:
   blog_service:
-    build: 
+    build:
       context: ..
       dockerfile: build/blog_service.dockerfile
+    volumes:
+      - ..:/home # Use for debugging
+    env_file:
+      blog_service.env
     container_name: blog_service
