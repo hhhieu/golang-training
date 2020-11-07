@@ -1,4 +1,5 @@
 database:
+  type: {{getv "/blog/database/type"}}
   url: {{getv "/blog/database/url"}}
   username: {{getv "/blog/database/username"}}
   password: {{getv "/blog/database/password"}}
