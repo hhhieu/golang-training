@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service PersonService {
+    rpc CreatePerson(CreatePersonRequest) returns (Person);
+}
+
+message CreatePersonRequest {
+    string name = 1;
+}
+
+message Person {
+    int32 id = 1;
+    string name = 2;
+}

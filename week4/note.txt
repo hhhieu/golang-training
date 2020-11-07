@@ -1,20 +1,20 @@
-Cookie:
-- La mot storage cua browser
-- Cac thuoc tinh:
- -name, value, time to live, domain, oath, httpOnly(tai client khong the xem duoc no), Secure
+- Nginx: set upstream to add a new node
+- GRPC: use service discovery to know available services
 
- Cookie create nhu the nao
+Service discovery: Zookeeper, etcd, consul
 
- 1. JS ENginge trinh duyet cung cao ham de minh tao
- 2. Server co the goi header: Set-Cookie: a=b
- Khi nao client no goi cookie len server:
- -Bat ky request nao deu goi cookie.
 
- Session:
- - server kiem tra session_id, tạo mới gửi về client.
- - Tạo ra một cái storage riêng cho sesion đó. Bỏ vào tủ đồ giống như identity của ông ( Redis/MySql)
- - Thường sẽ lưu trữ ở cookie.
+GRPC vs HTTP : 
+ - GRPC keep connection
+ - GRPC low data transfer
+ - GRPC can stream data slowly(don't have to return all), can send in both direction.
 
- JWT: claim.Subject: identity
+ Gateway: kong, tyk, traefix 
+  - Add captcha
+  - Cross-site request
 
- Nginx vs Apache : apache support configure web server easily (should use it when provide a hosting service)
+ IAM : OAuth2 
+
+ interceptor golang?
+
+declarative vs imperative

@@ -1,0 +1,1 @@
+ docker run --rm -v D:/Workspace/Go/Nordic/golang-training/week4/proto:/home -w /home znly/protoc --go_out=plugins=grpc:.  -I. person_service.proto
