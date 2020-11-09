@@ -18,3 +18,10 @@ Cookie:
  JWT: claim.Subject: identity
 
  Nginx vs Apache : apache support configure web server easily (should use it when provide a hosting service)
+
+
+ Listing:
+  - Limit offset/scroll
+  - Query: search(add search field, content should strip html tag), Filter
+  - DB: Index/store (index is seperate from store). Vietnamese is hard to index.
+    Order by two column which can be duplicate ( we should and an unique column)

@@ -18,3 +18,16 @@ GRPC vs HTTP :
  interceptor golang?
 
 declarative vs imperative
+
+CI/CD:
+ - Use "sonarqube" to view code coverage
+ - Supervisor: update new version, service is crashed.
+ - ELK: debug, cung cap view nhin ve performance hay la product, user (location, device, time zone)
+    index: elastic search 
+    Kibana: visuallize
+    Logstash: collect log from node
+ - apm elastic: tracing tool (alternative Jaeger, OpenTracing)
+
+Database extension: (mongodb, vitess, tidb)
+ - Replicate : duplicate database, to read from multi-place
+ - Sharding : split data to multi node
