@@ -21,7 +21,7 @@ declarative vs imperative
 
 CI/CD:
  - Use "sonarqube" to view code coverage
- - Supervisor: update new version, service is crashed.
+ - Supervisord: update new version, service is crashed.
  - ELK: debug, cung cap view nhin ve performance hay la product, user (location, device, time zone)
     index: elastic search 
     Kibana: visuallize
