@@ -12,6 +12,7 @@ import (
 const configFile = "/home/configs/blog_service.yml"
 
 func main() {
+	log.Printf("== Blog service's starting==")
 	c, err := config.LoadConfig(system.IOUtil{}, configFile)
 	if err != nil {
 		log.Fatalf("Loading configuration failed: %v", err)
@@ -24,4 +25,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("Connecting database failed: %v", err)
 	}
+	log.Printf("== Blog service's started ==")
 }

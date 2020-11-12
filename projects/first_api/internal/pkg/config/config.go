@@ -31,7 +31,7 @@ func LoadConfig(ioUtil system.IOUtiler, filePath string) (*Config, error) {
 	yaml.Unmarshal(configBytes, &config)
 	// Validate the database configuration
 	if err := config.Database.Validate(); err != nil {
-		return nil, fmt.Errorf("Loading database configuration failed: %v", err)
+		return nil, fmt.Errorf("Loading database configuration failed with error %v", err)
 	}
 	return &config, nil
 }
