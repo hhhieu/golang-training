@@ -1,6 +1,9 @@
 package database
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // Config configure the information of connection database
 type Config struct {
@@ -28,7 +31,7 @@ func (C Config) Validate() error {
 	// Validate the database type
 	isSupport := false
 	for _, t := range GetSupportedType() {
-		if t == C.Type {
+		if t == strings.ToLower(C.Type) {
 			isSupport = true
 			break
 		}

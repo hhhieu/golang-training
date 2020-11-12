@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"strings"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -27,14 +28,14 @@ func GetSupportedType() []string {
 // NewProvider new a provider
 func NewProvider(c Config) (*Provider, error) {
 	p := Provider{
-		dBType: c.Type,
+		dBType: strings.ToLower(c.Type),
 	}
 	// Validate the configuration
 	if err := c.Validate(); err != nil {
 		return nil, fmt.Errorf("Creating provider failed. The configuration is not valid:%v", err)
 	}
 	// Generate the data source name (DSN)
-	switch c.Type {
+	switch p.dBType {
 	case MySQL:
 		p.dSN = generateMySQLDSN(c)
 	default:
