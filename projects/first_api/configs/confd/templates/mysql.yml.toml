@@ -1,0 +1,6 @@
+#!/bin/bash
+export MYSQL_ROOT_PASSWORD=root
+export MYSQL_USER={{getv "/blog/database/username"}}
+export MYSQL_PASSWORD={{getv "/blog/database/password"}}
+export MYSQL_DATABASE={{getv "/blog/database/dbname"}}
+  

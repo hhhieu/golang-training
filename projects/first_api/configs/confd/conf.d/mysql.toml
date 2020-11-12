@@ -1,0 +1,8 @@
+[template]
+src = "mysql.yml.toml"
+dest = "/home/configs/mysql_env.sh"
+keys = [
+    "/blog/database/username",
+    "/blog/database/password",
+    "/blog/database/dbname",
+]

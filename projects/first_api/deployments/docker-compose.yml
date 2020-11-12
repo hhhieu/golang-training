@@ -1,5 +1,21 @@
-version: '2'
+version: '3'
 services:
+  database:
+    build:
+      context: ..
+      dockerfile: build/mysql.dockerfile
+      network: host
+    env_file:
+      blog_service.env
+    container_name: mysql
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: source ./configs/mysql_env.sh;mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD
+      interval: 10s
+      retries: 6
+      start_period: 10s
+
   blog_service:
     build:
       context: ..
@@ -8,4 +24,6 @@ services:
       - ..:/home # Use for debugging
     env_file:
       blog_service.env
+    depends_on:
+      - database
     container_name: blog_service
