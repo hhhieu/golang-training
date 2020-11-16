@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/hhhieu/golang-training/first_api/internal/pkg/config"
 	"github.com/hhhieu/golang-training/first_api/pkg/database"
 	"github.com/hhhieu/golang-training/first_api/pkg/system"
 )
@@ -22,7 +21,7 @@ const configFile = "/home/configs/blog_service.yml"
 // Make object with specified type
 func (C *Container) Make(t interface{}) error {
 	switch v := t.(type) {
-	case *config.Config:
+	case *Config:
 		return makeConfig(v)
 	case *database.Provider:
 		return makeDatabase(v)
@@ -31,8 +30,8 @@ func (C *Container) Make(t interface{}) error {
 	}
 }
 
-func makeConfig(c *config.Config) error {
-	conf, err := config.LoadConfig(system.IOUtil{}, configFile)
+func makeConfig(c *Config) error {
+	conf, err := LoadConfig(system.IOUtil{}, configFile)
 	if err == nil {
 		*c = *conf
 	}
@@ -41,7 +40,7 @@ func makeConfig(c *config.Config) error {
 
 func makeDatabase(d *database.Provider) error {
 	// Make configuration
-	var c config.Config
+	var c Config
 	err := makeConfig(&c)
 	if err != nil {
 		return err
