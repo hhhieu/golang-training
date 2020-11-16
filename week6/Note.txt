@@ -1,0 +1,13 @@
+Prepare a Golang project:
+
+db-migration schema (https://docs.mongodb.com/realm/mongodb/document-schemas/)
+lint-config
+docker-compose.yml
+Makefile, sh
+Gitlab-ci
+ReadMe
+Tai lieu:
+- Must to 
+- Should avoid
+
+unittest + tdd
