@@ -9,10 +9,11 @@ import (
 	"github.com/hhhieu/golang-training/first_api/pkg/database"
 )
 
-// ServiceCommander interface for a commander
-type ServiceCommander interface {
+// WebCommander interface for a commander
+type WebCommander interface {
+	WaitForDatabase(startPeriod int, retryTime int, interval int) error
+	Migrate() error
 	Serve() error
-	WaitForDatabase() error
 }
 
 // BlogCommander implements commands in blog
@@ -20,13 +21,11 @@ type BlogCommander struct {
 	BlogContainer blog.AppContainer
 }
 
-// Serve start all blog services
-func (C *BlogCommander) Serve() error {
-	// Check object
-	if err := check(C); err != nil {
-		return err
+// NewCommander create a commander object
+func NewCommander() (c WebCommander) {
+	return &BlogCommander{
+		BlogContainer: &blog.Container{},
 	}
-	return nil
 }
 
 // WaitForDatabase waits until database ready or timeout
@@ -56,11 +55,22 @@ func (C *BlogCommander) WaitForDatabase(startPeriod int, retryTime int, interval
 	return err
 }
 
-// NewCommander create a commander object
-func NewCommander() (c *BlogCommander) {
-	return &BlogCommander{
-		BlogContainer: &blog.Container{},
+// Migrate database
+func (C *BlogCommander) Migrate() error {
+	// Check object
+	if err := check(C); err != nil {
+		return err
 	}
+	return nil
+}
+
+// Serve start all blog services
+func (C *BlogCommander) Serve() error {
+	// Check object
+	if err := check(C); err != nil {
+		return err
+	}
+	return nil
 }
 
 func check(c *BlogCommander) error {
