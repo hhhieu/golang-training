@@ -10,9 +10,15 @@ import (
 
 const defaultURL = "localhost:3306"
 
-// Config contains the data source name(DSN)
+// WebConfig contains the web configuration
+type WebConfig struct {
+	Address string
+}
+
+// Config contains all configurations
 type Config struct {
 	Database database.Config
+	Web      WebConfig
 }
 
 // LoadConfig load the configuration from file

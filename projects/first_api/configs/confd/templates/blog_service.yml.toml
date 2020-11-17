@@ -4,4 +4,5 @@ database:
   username: {{getv "/blog/database/username"}}
   password: {{getv "/blog/database/password"}}
   dbname: {{getv "/blog/database/dbname"}}
-  
+web:
+  address: {{getv "/blog/web/address"}}  

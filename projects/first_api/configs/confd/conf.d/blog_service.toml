@@ -2,6 +2,7 @@
 src = "blog_service.yml.toml"
 dest = "/home/configs/blog_service.yml"
 keys = [
+    "/blog/web/address",
     "/blog/database/type",
     "/blog/database/url",
     "/blog/database/username",

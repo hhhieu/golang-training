@@ -56,14 +56,20 @@ func makeDatabase(d *database.Connection) error {
 }
 
 func makeWeb(w *Web) error {
+	// Make a configuration
+	var conf Config
+	err := makeConfig(&conf)
+	if err != nil {
+		return err
+	}
 	// Make a database object
 	var connection database.Connection
-	err := makeDatabase(&connection)
+	err = makeDatabase(&connection)
 	if err != nil {
 		return err
 	}
 	// Make a web object
-	web, err := NewWeb(&connection)
+	web, err := NewWeb(conf.Web, &connection)
 	if err == nil {
 		*w = *web
 	}
