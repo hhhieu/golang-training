@@ -1,1 +1,3 @@
 go.sum
+projects/first_api/configs/mysql_env.sh
+projects/first_api/configs/blog_service.yml
