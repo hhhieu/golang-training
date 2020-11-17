@@ -25,6 +25,8 @@ func (C *Container) Make(t interface{}) error {
 		return makeConfig(v)
 	case *database.Connection:
 		return makeDatabase(v)
+	case *Web:
+		return makeWeb(v)
 	default:
 		return fmt.Errorf("Unsupport type %v", reflect.TypeOf(v))
 	}
@@ -39,16 +41,31 @@ func makeConfig(c *Config) error {
 }
 
 func makeDatabase(d *database.Connection) error {
-	// Make configuration
+	// Make a configuration
 	var c Config
 	err := makeConfig(&c)
 	if err != nil {
 		return err
 	}
-	// Make database object
+	// Make a database object
 	database, err := database.NewConnection(c.Database)
 	if err == nil {
 		*d = *database
+	}
+	return err
+}
+
+func makeWeb(w *Web) error {
+	// Make a database object
+	var connection database.Connection
+	err := makeDatabase(&connection)
+	if err != nil {
+		return err
+	}
+	// Make a web object
+	web, err := NewWeb(&connection)
+	if err == nil {
+		*w = *web
 	}
 	return err
 }

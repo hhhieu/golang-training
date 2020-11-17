@@ -90,7 +90,14 @@ func (C *BlogCommander) Serve() error {
 	if err := check(C); err != nil {
 		return err
 	}
-	return nil
+	// Create the web object
+	var web blog.Web
+	err := C.BlogContainer.Make(&web)
+	if err != nil {
+		return err
+	}
+
+	return web.Serve()
 }
 
 func check(c *BlogCommander) error {
