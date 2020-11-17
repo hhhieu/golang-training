@@ -52,6 +52,13 @@ func main() {
 					return commander.Serve()
 				},
 			},
+			&cli.Command{
+				Name:  "migrate",
+				Usage: "Migrate database",
+				Action: func(c *cli.Context) error {
+					return commander.Migrate()
+				},
+			},
 		},
 	}
 	app.Run(os.Args)

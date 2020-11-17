@@ -8,8 +8,8 @@ import (
 	"github.com/hhhieu/golang-training/first_api/pkg/system"
 )
 
-// AppContainer provides function to make an object
-type AppContainer interface {
+// IContainer provides function to make an object
+type IContainer interface {
 	Make(t interface{}) error
 }
 
@@ -23,7 +23,7 @@ func (C *Container) Make(t interface{}) error {
 	switch v := t.(type) {
 	case *Config:
 		return makeConfig(v)
-	case *database.Provider:
+	case *database.Connection:
 		return makeDatabase(v)
 	default:
 		return fmt.Errorf("Unsupport type %v", reflect.TypeOf(v))
@@ -38,7 +38,7 @@ func makeConfig(c *Config) error {
 	return err
 }
 
-func makeDatabase(d *database.Provider) error {
+func makeDatabase(d *database.Connection) error {
 	// Make configuration
 	var c Config
 	err := makeConfig(&c)
@@ -46,7 +46,7 @@ func makeDatabase(d *database.Provider) error {
 		return err
 	}
 	// Make database object
-	database, err := database.NewProvider(c.Database)
+	database, err := database.NewConnection(c.Database)
 	if err == nil {
 		*d = *database
 	}

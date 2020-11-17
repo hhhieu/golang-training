@@ -5,6 +5,8 @@ import (
 	"log"
 	"time"
 
+	"github.com/hhhieu/golang-training/first_api/internal/pkg/model"
+
 	"github.com/hhhieu/golang-training/first_api/internal/pkg/blog"
 	"github.com/hhhieu/golang-training/first_api/pkg/database"
 )
@@ -18,7 +20,7 @@ type WebCommander interface {
 
 // BlogCommander implements commands in blog
 type BlogCommander struct {
-	BlogContainer blog.AppContainer
+	BlogContainer blog.IContainer
 }
 
 // NewCommander create a commander object
@@ -35,7 +37,7 @@ func (C *BlogCommander) WaitForDatabase(startPeriod int, retryTime int, interval
 		return err
 	}
 	// Create the database object
-	var db database.Provider
+	var db database.Connection
 	err := C.BlogContainer.Make(&db)
 	if err != nil {
 		return err
@@ -60,6 +62,24 @@ func (C *BlogCommander) Migrate() error {
 	// Check object
 	if err := check(C); err != nil {
 		return err
+	}
+	// Create the database object
+	var connection database.Connection
+	err := C.BlogContainer.Make(&connection)
+	if err != nil {
+		return err
+	}
+	err = connection.Open()
+	if err != nil {
+		return err
+	}
+	// Migrate models
+	models := []interface{}{&model.Category{}, &model.Comment{}, &model.Post{}, &model.User{}}
+	for _, m := range models {
+		err = connection.AutoMigrate(m)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
