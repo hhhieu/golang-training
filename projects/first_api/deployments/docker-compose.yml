@@ -27,3 +27,15 @@ services:
     depends_on:
       - database
     container_name: blog_service
+
+  blog_initialization:
+    build:
+      context: ..
+      dockerfile: build/blog_initialization.dockerfile
+    volumes:
+      - ..:/home # Use for debugging
+    env_file:
+      blog_service.env
+    depends_on:
+      - database
+    container_name: blog_initialization
