@@ -11,7 +11,7 @@ _build:
 
 install:
 	$(DOCKER_COMPOSE) stop
-	$(DOCKER_COMPOSE) up blog_service -d
+	$(DOCKER_COMPOSE) up -d blog_service
 
 uninstall:
 	$(DOCKER_COMPOSE) stop
