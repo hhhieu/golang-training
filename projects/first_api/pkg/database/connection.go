@@ -13,6 +13,16 @@ const (
 	MySQL string = "mysql"
 )
 
+// Connector defines interface of connection
+type Connector interface {
+	Open() error
+	AutoMigrate(s ...interface{}) error
+	Create(s interface{}) Connector
+	First(s interface{}, conds ...interface{}) Connector
+	Find(s interface{}, conds ...interface{}) Connector
+	Error() error
+}
+
 // Connection contains the database connection
 type Connection struct {
 	DB   *gorm.DB
@@ -59,9 +69,25 @@ func (P *Connection) AutoMigrate(s ...interface{}) error {
 }
 
 // Create creates a row in table
-func (P *Connection) Create(s interface{}) *Connection {
+func (P *Connection) Create(s interface{}) Connector {
 	P.DB = P.DB.Create(s)
 	return P
+}
+
+// Find finds a row in table
+func (P *Connection) Find(s interface{}, conds ...interface{}) Connector {
+	db := P.DB.Find(s, conds)
+	return &Connection{
+		DB:   db,
+		Conf: P.Conf}
+}
+
+// First finds first row which matchs condition
+func (P *Connection) First(s interface{}, conds ...interface{}) Connector {
+	db := P.DB.First(s, conds)
+	return &Connection{
+		DB:   db,
+		Conf: P.Conf}
 }
 
 // Error gets current error

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -8,10 +9,13 @@ import (
 	"github.com/hhhieu/golang-training/first_api/pkg/database"
 )
 
-// UserCreatingService implement the creating service
-type UserCreatingService struct {
-	DBConnection *database.Connection
+// Resource defines the service resources
+type Resource struct {
+	DBConnection database.Connector
 }
+
+// UserCreatingService implement the creating service
+type UserCreatingService Resource
 
 // Serve creates user
 func (S *UserCreatingService) Serve(c *gin.Context) {
@@ -28,6 +32,24 @@ func (S *UserCreatingService) Serve(c *gin.Context) {
 		c.JSON(500, gin.H{
 			"code":    1,
 			"message": "Can not create user",
+			"detail":  err.Error(),
+		})
+		return
+	}
+	c.JSON(200, user)
+}
+
+// UserGettingService implement the getting service
+type UserGettingService Resource
+
+// Serve creates user
+func (S *UserGettingService) Serve(c *gin.Context) {
+	var user model.User
+	id := c.Param("id")
+	if err := S.DBConnection.First(&user, id).Error(); err != nil {
+		c.JSON(400, gin.H{
+			"code":    1,
+			"message": fmt.Sprintf("Can not get user with id %v", id),
 			"detail":  err.Error(),
 		})
 		return

@@ -29,7 +29,7 @@ type IAllocator interface {
 
 // Allocator implements the service allocator
 type Allocator struct {
-	DBConnection *database.Connection
+	DBConnection database.Connector
 }
 
 // Allocate create a service assosiate with the specified name
@@ -37,6 +37,8 @@ func (A *Allocator) Allocate(name string) (Service, error) {
 	switch name {
 	case UserCreating:
 		return &UserCreatingService{DBConnection: A.DBConnection}, nil
+	case UserGetting:
+		return &UserGettingService{DBConnection: A.DBConnection}, nil
 	default:
 		return nil, fmt.Errorf("Unsupport service name: %v", name)
 	}
