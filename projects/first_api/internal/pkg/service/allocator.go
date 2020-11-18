@@ -3,8 +3,9 @@ package service
 import (
 	"fmt"
 
+	"github.com/hhhieu/golang-training/first_api/pkg/database"
+
 	"github.com/gin-gonic/gin"
-	"github.com/hhhieu/golang-training/first_api/internal/pkg/service/user"
 )
 
 // List of supported service
@@ -27,13 +28,15 @@ type IAllocator interface {
 }
 
 // Allocator implements the service allocator
-type Allocator struct{}
+type Allocator struct {
+	DBConnection *database.Connection
+}
 
 // Allocate create a service assosiate with the specified name
 func (A *Allocator) Allocate(name string) (Service, error) {
 	switch name {
 	case UserCreating:
-		return &user.Creating{}, nil
+		return &UserCreatingService{DBConnection: A.DBConnection}, nil
 	default:
 		return nil, fmt.Errorf("Unsupport service name: %v", name)
 	}

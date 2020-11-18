@@ -58,6 +58,17 @@ func (P *Connection) AutoMigrate(s ...interface{}) error {
 	return P.DB.AutoMigrate(s...)
 }
 
+// Create creates a row in table
+func (P *Connection) Create(s interface{}) *Connection {
+	P.DB = P.DB.Create(s)
+	return P
+}
+
+// Error gets current error
+func (P *Connection) Error() error {
+	return P.DB.Error
+}
+
 func generateMySQLDSN(c Config) string {
 	return fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		c.Username, c.Password, c.URL, c.DBName)

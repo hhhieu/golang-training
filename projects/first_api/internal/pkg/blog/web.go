@@ -16,17 +16,20 @@ type Web struct {
 // NewWeb news the web services
 func NewWeb(c WebConfig, dbConnection *database.Connection) (*Web, error) {
 	w := Web{
-		Conf:             c,
-		DBConnection:     dbConnection,
-		ServiceAllocator: &service.Allocator{},
+		Conf: c,
+		ServiceAllocator: &service.Allocator{
+			DBConnection: dbConnection,
+		},
+		DBConnection: dbConnection,
 	}
 	return &w, nil
 }
 
 // Serve start the web services
 func (W *Web) Serve() error {
+	W.DBConnection.Open()
 	router := gin.Default()
 	s, _ := W.ServiceAllocator.Allocate(service.UserCreating)
-	router.GET("/user/create", s.Serve)
+	router.POST("/blog/user/create", s.Serve)
 	return router.Run(W.Conf.Address)
 }
