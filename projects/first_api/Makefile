@@ -8,6 +8,7 @@ _build:
 	$(DOCKER_COMPOSE) down
 	$(DOCKER_COMPOSE) build
 	$(DOCKER_COMPOSE) up  blog_initialization
+	$(DOCKER_COMPOSE) stop
 
 install:
 	$(DOCKER_COMPOSE) stop
