@@ -39,6 +39,8 @@ func (A *Allocator) Allocate(name string) (Service, error) {
 		return &UserCreatingService{DBConnection: A.DBConnection}, nil
 	case UserGetting:
 		return &UserGettingService{DBConnection: A.DBConnection}, nil
+	case UserUpdating:
+		return &UserUpdatingService{DBConnection: A.DBConnection}, nil
 	default:
 		return nil, fmt.Errorf("Unsupport service name: %v", name)
 	}

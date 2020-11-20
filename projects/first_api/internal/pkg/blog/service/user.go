@@ -56,3 +56,42 @@ func (S *UserGettingService) Serve(c *gin.Context) {
 	}
 	c.JSON(200, user)
 }
+
+// UserUpdatingService implement the updating service
+type UserUpdatingService Resource
+
+// Serve updates user
+func (S *UserUpdatingService) Serve(c *gin.Context) {
+	// Bind the requested data
+	id := c.Param("id")
+	var newUser model.User
+	if err := c.ShouldBindJSON(&newUser); err != nil {
+		c.JSON(400, gin.H{
+			"code":    1,
+			"message": fmt.Sprintf("Can not update user with id %v", id),
+			"detail":  err.Error(),
+		})
+		return
+	}
+	// Find user
+	var oldUser model.User
+	if err := S.DBConnection.First(&oldUser, id).Error(); err != nil {
+		c.JSON(400, gin.H{
+			"code":    1,
+			"message": fmt.Sprintf("Invalid user id %v", id),
+			"detail":  err.Error(),
+		})
+		return
+	}
+	// Update user
+	newUser.ID = oldUser.ID
+	if err := S.DBConnection.Save(&newUser).Error(); err != nil {
+		c.JSON(400, gin.H{
+			"code":    1,
+			"message": fmt.Sprintf("Can not update user with id %v", id),
+			"detail":  err.Error(),
+		})
+		return
+	}
+	c.JSON(200, newUser)
+}

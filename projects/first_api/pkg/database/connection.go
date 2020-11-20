@@ -20,6 +20,7 @@ type Connector interface {
 	Create(s interface{}) Connector
 	First(s interface{}, conds ...interface{}) Connector
 	Find(s interface{}, conds ...interface{}) Connector
+	Save(value interface{}) Connector
 	Error() error
 }
 
@@ -85,6 +86,14 @@ func (P *Connection) Find(s interface{}, conds ...interface{}) Connector {
 // First finds first row which matchs condition
 func (P *Connection) First(s interface{}, conds ...interface{}) Connector {
 	db := P.DB.First(s, conds)
+	return &Connection{
+		DB:   db,
+		Conf: P.Conf}
+}
+
+// Save updates all fields of exist row
+func (P *Connection) Save(value interface{}) Connector {
+	db := P.DB.Save(value)
 	return &Connection{
 		DB:   db,
 		Conf: P.Conf}

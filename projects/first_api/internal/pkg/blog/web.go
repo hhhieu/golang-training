@@ -1,6 +1,8 @@
 package blog
 
 import (
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/hhhieu/golang-training/first_api/internal/pkg/blog/service"
 	"github.com/hhhieu/golang-training/first_api/pkg/database"
@@ -16,6 +18,7 @@ type Web struct {
 const (
 	routingGetMethod  = "GET"
 	routingPostMethod = "POST"
+	routingPutMethod  = "PUT"
 )
 
 type routing struct {
@@ -49,6 +52,11 @@ func (W *Web) Serve() error {
 			Method:  routingGetMethod,
 			Path:    "/blog/user/:id",
 			Service: service.UserGetting,
+		},
+		routing{
+			Method:  routingPutMethod,
+			Path:    "/blog/user/:id",
+			Service: service.UserUpdating,
 		}}
 	// Connection to database
 	W.DBConnection.Open()
@@ -64,6 +72,10 @@ func (W *Web) Serve() error {
 			router.GET(r.Path, s.Serve)
 		case routingPostMethod:
 			router.POST(r.Path, s.Serve)
+		case routingPutMethod:
+			router.PUT(r.Path, s.Serve)
+		default:
+			panic(fmt.Errorf("Unsupport method %v", r.Method))
 		}
 	}
 	// Start the services
