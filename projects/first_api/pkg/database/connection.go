@@ -74,8 +74,10 @@ func (P *Connection) AutoMigrate(s ...interface{}) error {
 
 // Create creates a row in table
 func (P *Connection) Create(s interface{}) Connector {
-	P.DB = P.DB.Create(s)
-	return P
+	db := P.DB.Create(s)
+	return &Connection{
+		DB:   db,
+		Conf: P.Conf}
 }
 
 // Find finds a row in table
