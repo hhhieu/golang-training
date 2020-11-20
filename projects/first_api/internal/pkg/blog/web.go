@@ -16,9 +16,11 @@ type Web struct {
 }
 
 const (
-	routingGetMethod  = "GET"
-	routingPostMethod = "POST"
-	routingPutMethod  = "PUT"
+	routingGetMethod    = "GET"
+	routingPostMethod   = "POST"
+	routingPutMethod    = "PUT"
+	routingPatchMethod  = "PATCH"
+	routingDeleteMethod = "DELETE"
 )
 
 type routing struct {
@@ -57,6 +59,16 @@ func (W *Web) Serve() error {
 			Method:  routingPutMethod,
 			Path:    "/blog/user/:id",
 			Service: service.UserUpdating,
+		},
+		routing{
+			Method:  routingPatchMethod,
+			Path:    "/blog/user/:id",
+			Service: service.UserPartialUpdating,
+		},
+		routing{
+			Method:  routingDeleteMethod,
+			Path:    "/blog/user/:id",
+			Service: service.UserDeleting,
 		}}
 	// Connection to database
 	W.DBConnection.Open()
@@ -74,6 +86,10 @@ func (W *Web) Serve() error {
 			router.POST(r.Path, s.Serve)
 		case routingPutMethod:
 			router.PUT(r.Path, s.Serve)
+		case routingPatchMethod:
+			router.PATCH(r.Path, s.Serve)
+		case routingDeleteMethod:
+			router.DELETE(r.Path, s.Serve)
 		default:
 			panic(fmt.Errorf("Unsupport method %v", r.Method))
 		}

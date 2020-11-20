@@ -10,11 +10,12 @@ import (
 
 // List of supported service
 const (
-	UserCreating string = "create_user"
-	UserListing  string = "list_user"
-	UserGetting  string = "get_user"
-	UserUpdating string = "update_user"
-	UserDeleting string = "delete_user"
+	UserCreating        string = "create_user"
+	UserListing         string = "list_user"
+	UserGetting         string = "get_user"
+	UserUpdating        string = "update_user"
+	UserPartialUpdating string = "partial_update_user"
+	UserDeleting        string = "delete_user"
 )
 
 // Service define the service interface
@@ -41,6 +42,10 @@ func (A *Allocator) Allocate(name string) (Service, error) {
 		return &UserGettingService{DBConnection: A.DBConnection}, nil
 	case UserUpdating:
 		return &UserUpdatingService{DBConnection: A.DBConnection}, nil
+	case UserPartialUpdating:
+		return &UserPartialUpdatingService{DBConnection: A.DBConnection}, nil
+	case UserDeleting:
+		return &UserDeletingService{DBConnection: A.DBConnection}, nil
 	default:
 		return nil, fmt.Errorf("Unsupport service name: %v", name)
 	}

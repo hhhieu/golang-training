@@ -95,3 +95,59 @@ func (S *UserUpdatingService) Serve(c *gin.Context) {
 	}
 	c.JSON(200, newUser)
 }
+
+// UserPartialUpdatingService implement the updating service
+type UserPartialUpdatingService Resource
+
+// Serve updates user
+func (S *UserPartialUpdatingService) Serve(c *gin.Context) {
+	// Bind the requested data
+	id := c.Param("id")
+	var partialNewUser model.User
+	if err := c.ShouldBindJSON(&partialNewUser); err != nil {
+		c.JSON(400, gin.H{
+			"code":    1,
+			"message": fmt.Sprintf("Can not partial update user with id %v", id),
+			"detail":  err.Error(),
+		})
+		return
+	}
+	// Find user
+	var oldUser model.User
+	if err := S.DBConnection.First(&oldUser, id).Error(); err != nil {
+		c.JSON(400, gin.H{
+			"code":    1,
+			"message": fmt.Sprintf("Invalid user id %v", id),
+			"detail":  err.Error(),
+		})
+		return
+	}
+	// Update partial user
+	if err := S.DBConnection.Model(&oldUser).Updates(&partialNewUser).Error(); err != nil {
+		c.JSON(400, gin.H{
+			"code":    1,
+			"message": fmt.Sprintf("Can not partial update user with id %v", id),
+			"detail":  err.Error(),
+		})
+		return
+	}
+	c.JSON(200, oldUser)
+}
+
+// UserDeletingService implement the deleting service
+type UserDeletingService Resource
+
+// Serve creates user
+func (S *UserDeletingService) Serve(c *gin.Context) {
+	var user model.User
+	id := c.Param("id")
+	if err := S.DBConnection.Delete(&user, id).Error(); err != nil {
+		c.JSON(400, gin.H{
+			"code":    1,
+			"message": fmt.Sprintf("Can not delete user with id %v", id),
+			"detail":  err.Error(),
+		})
+		return
+	}
+	c.JSON(204, nil)
+}

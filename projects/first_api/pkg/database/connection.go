@@ -21,6 +21,9 @@ type Connector interface {
 	First(s interface{}, conds ...interface{}) Connector
 	Find(s interface{}, conds ...interface{}) Connector
 	Save(value interface{}) Connector
+	Model(value interface{}) Connector
+	Updates(value interface{}) Connector
+	Delete(value interface{}, conds ...interface{}) Connector
 	Error() error
 }
 
@@ -94,6 +97,30 @@ func (P *Connection) First(s interface{}, conds ...interface{}) Connector {
 // Save updates all fields of exist row
 func (P *Connection) Save(value interface{}) Connector {
 	db := P.DB.Save(value)
+	return &Connection{
+		DB:   db,
+		Conf: P.Conf}
+}
+
+// Model specify the model you would like to run
+func (P *Connection) Model(value interface{}) Connector {
+	db := P.DB.Model(value)
+	return &Connection{
+		DB:   db,
+		Conf: P.Conf}
+}
+
+// Updates update attributes
+func (P *Connection) Updates(value interface{}) Connector {
+	db := P.DB.Updates(value)
+	return &Connection{
+		DB:   db,
+		Conf: P.Conf}
+}
+
+// Delete delete value match given conditions
+func (P *Connection) Delete(value interface{}, conds ...interface{}) Connector {
+	db := P.DB.Delete(value, conds)
 	return &Connection{
 		DB:   db,
 		Conf: P.Conf}
